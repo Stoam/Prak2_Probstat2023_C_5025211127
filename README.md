@@ -22,9 +22,6 @@
     - [3B](#3b)
     - [3C](#3c)
   - [Soal 4](#soal-4)
-    - [4A](#4a)
-    - [4B](#4b)
-    - [4C](#4c)
 
 ## Soal 1
 
@@ -183,33 +180,79 @@ Berdasarkan hasil di atas, didapatkan nilai p-value adalah 1 (lebih besar dari &
 
 ## Soal 3
 
+Diketahui perusahaan memiliki seorang *data analyst* yang ingin memecahkan permasalahan pengambilan keputusan dalam perusahaan tersebut. Selanjutnya didapatkanlah data berikut dari perusahaan saham tersebut.
+
+| **Nama Kota/Atribut**     | **Bandung**   | **Bali**  |
+| ---                       | ---           | ---       |
+| **Jumlah Saham**          | 20            | 27        |
+| **Sampel Mean**           | 3.64          | 2.79      |
+| **Sampel Standar Deviasi**| 1.67          | 1.5       |
+
+Dari data di atas berilah keputusan serta kesimpulan yang didapatkan. Asumsikan nilai variancenya sama, apakah ada perbedaan pada rata-ratanya (&alpha; = 0.05)?
+
 ### 3A
 
-```R
-x = 3
-v = 10
+> **Buatlah H0 dan H1**
 
-# A
-# Fungsi Probabilitas Distribusi Chi-Square
-dchisq(x, v)
-```
-
-Berikut adalah hasilnya :
-
-![output_3A](Images/output_3A.png)
+- `H0 :` rata-rata data saham pada Bandung dan Bali sama.
+- `H1 :` rata-rata data saham pada Bandung dan Bali tidak sama.
 
 ### 3B
 
+> **Hitung sampel statistik**
+
+Berikut adalah Script R untuk soal 3B :
+
 ```R
+install.packages("mosaic")
+library(mosaic)
+
 # B
-# Histogram dari Distribusi Chi-Square dengan 500 data acak
-hist(rchisq(n = 500, df = v), main = "Histogram Distribusi Chi-Square",
-     xlab = "Nilai", ylab = "Frekuensi")
+# Sampel Statistik
+
+n1      = 20
+rerata1 = 3.64
+sd1     = 1.67
+
+n2      = 27
+rerata2 = 2.79
+sd2     = 1.5
+
+tsum.test(rerata1, sd1, n1,
+          rerata2, sd2, n2,
+          alternative = "greater",
+          var.equal = TRUE)
 ```
+
+- `n1 :` jumlah saham di Bandung
+- `rerata1 :` sampeal mean di Bandung
+- `sd1 :` sampel standar deviasi di Bandung
+- `n2 :` jumlah saham di Bali
+- `rerata2 :` sampel mean di Bali
+- `sd2 :` sampel standar deviasi di Bali
+- `tsum.test() :` function untuk melakukan uji t-test yang menghasilkan nilai t-statistik, p-value, dan interval kepercayaan.
+- `alternative = "greater" :` argumen pada function `tsum.test()` untuk menandakan bahwa hipotesis alternatif adalah rata-rata kelompok pertama lebih besar dari rata-rata kelompok kedua.
+- `var.equal = TRUE :` argumen pada function `tsum.test()` untuk menandakan bahwa asumsi adalah nilai variance dari 2 kelompok adalah sama.
 
 Berikut adalah hasilnya :
 
-![plot_3B](Images/plot_3B.png)
+```
+> tsum.test(rerata1, sd1, n1,
++           rerata2, sd2, n2,
++           alternative = "greater",
++           var.equal = TRUE)
+
+	Standard Two-Sample t-Test
+
+data:  Summarized x and y
+t = 1.8304, df = 45, p-value = 0.03691
+alternative hypothesis: true difference in means is greater than 0
+95 percent confidence interval:
+ 0.07012818         NA
+sample estimates:
+mean of x mean of y 
+     3.64      2.79
+```
 
 ### 3C
 
@@ -228,94 +271,3 @@ Berikut adalah hasilnya :
 
 ## Soal 4
 
-> **Data bangkitan acak sebanyak 100 dengan `mean = 45` dan `sd = 5`**
-
-```R
-n = 100
-mean = 45
-sd = 5
-```
-
-### 4A
-
-> **Fungsi probabilitas Distribusi Normal P(X1 <= x <= X2), hitung z-score, dan plot data**
-
-Pertama kita generate suatu Data Bangkitan Acak Distribusi Normal, kemudian hitung rata-ratanya, misalkan hasilnya bernama `avg`.
-
-Setelah itu, hitung `x1` yang bernilai `floor(avg)` dan `x2` yang bernilai `ceiling(avg)`.
-
-Kemudian, hitung probabilitasnya sesuai dengan fungsi probabilitas yang ada di soal, yaitu `P(X1 <= x <= X2)`.
-
-Setelah itu, hitung z-score dari x1 dan x2 berdasarkan rumus `z-score = (x - mean) / sd`, dengan `mean` adalah rata-rata dan `sd` adalah standar deviasi.
-
-Script Perhitungan :
-
-```R
-# A
-# Perhitungan
-data <- rnorm(n, mean, sd)
-avg <- mean(data)
-x1 <- floor(avg)
-x2 <- ceiling(avg)
-prob <- pnorm(x2, avg, sd) - pnorm(x1, avg, sd)
-z1 <- (x1 - avg) / sd
-z2 <- (x2 - avg) / sd
-```
-
-Script Hasil :
-
-```R
-avg
-x1
-x2
-prob
-z1
-z2
-```
-
-Hasil :
-
-![output_4A](Images/output_4A.png)
-
-Script Plot :
-
-```R
-# Plot
-plot(data)
-```
-
-Plot :
-
-![plot_4A](Images/plot_4A.png)
-
-### 4B
-
-> **Histogram dari Distribusi Normal dengan breaks 50**
-
-Script :
-
-```R
-# B
-# Histogram Distribusi Normal dengan breaks 50
-hist(data, breaks = 50)
-```
-
-Hasil Histogram :
-
-![histo_4B](Images/histo_4B.png)
-
-### 4C
-
-> **Nilai Varian dari Data Bangkitan Acak Distribusi Normal**
-
-Script :
-
-```R
-# C
-# Varian data bangkitan acak Distribusi Normal
-var(data)
-```
-
-Hasil :
-
-![output_4C](Images/output_4C.png)
