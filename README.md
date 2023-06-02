@@ -7,6 +7,7 @@
 | Nadif Mustafa | 5025211127    | C     |
 
 ## Daftar Isi
+
 - [Praktikum Probstat Modul 2](#praktikum-probstat-modul-2)
   - [Identitas](#identitas)
   - [Daftar Isi](#daftar-isi)
@@ -21,6 +22,9 @@
     - [3A](#3a)
     - [3B](#3b)
     - [3C](#3c)
+    - [3D](#3d)
+    - [3E](#3e)
+    - [3F](#3f)
   - [Soal 4](#soal-4)
 
 ## Soal 1
@@ -95,7 +99,7 @@ t.test(x, y, paired=TRUE)
 
 Berikut adalah hasilnya :
 
-```
+```bash
 > t.test(x, y, paired=TRUE)
 
 	Paired t-test
@@ -157,14 +161,16 @@ zsum.test(rerata, sigma, n,
 - `zsum.test() :` function untuk melakukan uji z-sum
 - `mu :` nilai klaim rata-rata
 
+<br>
+
 Berikut adalah hasilnya :
 
-```
+```bash
 > zsum.test(rerata, sigma, n,
 +           alternative = "greater",
 +           mu = 25000)
 
-	One-sample z-Test
+    One-sample z-Test
 
 data:  Summarized x
 z = -5, p-value = 1
@@ -204,9 +210,6 @@ Dari data di atas berilah keputusan serta kesimpulan yang didapatkan. Asumsikan 
 Berikut adalah Script R untuk soal 3B :
 
 ```R
-install.packages("mosaic")
-library(mosaic)
-
 # B
 # Sampel Statistik
 
@@ -234,15 +237,17 @@ tsum.test(rerata1, sd1, n1,
 - `alternative = "greater" :` argumen pada function `tsum.test()` untuk menandakan bahwa hipotesis alternatif adalah rata-rata kelompok pertama lebih besar dari rata-rata kelompok kedua.
 - `var.equal = TRUE :` argumen pada function `tsum.test()` untuk menandakan bahwa asumsi adalah nilai variance dari 2 kelompok adalah sama.
 
+<br>
+
 Berikut adalah hasilnya :
 
-```
+```bash
 > tsum.test(rerata1, sd1, n1,
 +           rerata2, sd2, n2,
 +           alternative = "greater",
 +           var.equal = TRUE)
 
-	Standard Two-Sample t-Test
+    Standard Two-Sample t-Test
 
 data:  Summarized x and y
 t = 1.8304, df = 45, p-value = 0.03691
@@ -256,18 +261,70 @@ mean of x mean of y
 
 ### 3C
 
+Berikut adalah Script R untuk soal 3C :
+
 ```R
+install.packages("mosaic")
+library(mosaic)
+
 # C
-# Rataan dan Varian Distribusi Chi-Square
-mean <- v
-varian <- 2 * v
-mean
-varian
+# Uji statistik (df = 2)
+
+plotDist(dist = 't', df = 2, col = "red")
 ```
+
+- `dist :` jenis distribusi (t-student)
+- `df :` derajat kebebasan (2)
+- `col :` warna garis plot (merah)
+
+Distribusi t-student digunakan dalam uji t-test ketika ukuran sampel relatif kecil atau variansi populasi tidak diketahui. Melalui plot distribusi, kita dapat mengetahui nilai t-statistik dan p-value dari distribusi t-student untuk derajat kebebasan yang diberikan.
+
+<br>
 
 Berikut adalah hasilnya :
 
-![output_3C](Images/output_3C.png)
+![plot_3C](Images/plot_3C.png)
+
+### 3D
+
+> **Nilai Kritikal**
+
+Berikut adalah Script R untuk soal 3D :
+
+```R
+# D
+# Nilai Kritikal
+
+qchisq(p = 0.05, df = 2, lower.tail = FALSE)
+```
+
+- `p :` tingkat signifikansi (&alpha; = 0.05)
+- `df :` derajat kebebasan (2)
+- `qchisq() :` function untuk menghitung nilai kritikal dari distribusi chi-square
+- `lower.tail = FALSE :` argumen pada function `qchisq()` untuk menandakan bahwa kita ingin mencari nilai kritikal pada ekor atas distribusi chi-square.
+
+<br>
+
+Berikut adalah hasilnya :
+
+```bash
+> qchisq(p = 0.05, df = 2, lower.tail = FALSE)
+[1] 5.991465
+```
+
+s
+
+### 3E
+
+> **Keputusan**
+
+Pada soal 3B didapatkan nilai p-value sebesar 0.03691 (lebih kecil dari nilai signifikan &alpha; = 0.05), maka H0 dapat ditolak dan H1 diterima.
+
+### 3F
+
+> **Kesimpulan**
+
+Karena nilai p-value lebih kecil dari nilai signifikan yang menyebabkan H0 ditolak dan H1 diterima, maka dapat ditarik kesimpulan bahwa **nilai rata-rata saham dari Bandung dan Bali tidak sama.**
 
 ## Soal 4
 
