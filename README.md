@@ -16,11 +16,7 @@
     - [1C](#1c)
   - [Soal 2](#soal-2)
     - [2A](#2a)
-    - [2B](#2b)
     - [2C](#2c)
-    - [2D](#2d)
-    - [2E](#2e)
-    - [2F](#2f)
   - [Soal 3](#soal-3)
     - [3A](#3a)
     - [3B](#3b)
@@ -139,87 +135,61 @@ Dikarenakan nilai p-value yang didapatkan setelah uji t adalah `0.0001373` (kura
 
 ## Soal 2
 
-
+Diketahui bahwa mobil dikemudikan rata-rata lebih dari 25.000 kilometer per tahun. Untuk menguji klaim ini, 100 pemilik mobil dipilih secara acak diminta untuk mencatat jarak yang mereka tempuh. Jika sampel acak menunjukkan rata-rata 23.500 kilometer dan standar deviasi 3.000 kilometer (kerjakan menggunakan library seperti referensi pada modul).
 
 ### 2A
 
-> **Pendistribusian banyak kematian karena kanker tulang, serta tentukan distribusi dengan parameter yang sesuai**
+> **Apakah Anda setuju dengan klaim tersebut? Jelaskan.**
 
-Distribusi yang digunakan adalah Distribusi Poisson dengan parameter `lambda = 1.8`.
+Saya setuju, karena sebelum melakukan uji z-sum kita dibolehkan untuk memberikan klaim bahwa mungkin saja apabila mobil dikemudikan rata-rata lebih dari 25.000 kilometer per tahun.
 
-### 2B
-
-> **Probabilitas 4 kematian akibat kanker tulang**
-
-Untuk menghitung Distribusi Poisson di R bisa menggunakan fungsi `dpois()` seperti berikut :
-
-```R
-# A
-# Menggunakan Distribusi Poisson
-lambda = 1.8
-
-# B
-# Probabilitas 4 kematian kanker tulang (Tidak Biasa)
-B <- dpois(4, lambda)
-B
-```
-
-Berikut adalah hasilnya :
-
-![output_2B](Images/output_2B.png)
+Kemudian, untuk menguji bahwa klaim kita benar bisa menggunakan uji z-sum.
 
 ### 2C
 
+> **Buatlah kesimpulan berdasarkan p-value yang dihasilkan!**
+
+Berikut adalah Script R untuk melakukan uji z-sum :
+
 ```R
 # C
-# Peluang paling banyak 4 kematian kanker tulang
-C <- ppois(4, lambda)
-C
+# Kesimpulan berdasarkan p-value yang dihasilkan
+
+rerata = 23500
+sigma  = 3000
+n      = 100
+
+zsum.test(rerata, sigma, n,
+          alternative = "greater",
+          mu = 25000)
 ```
+
+- `rerata :` rata-rata data pada sampel acak
+- `sigma :` standar deviasi pada sampel acak
+- `n :` banyak sampel acak yang diuji
+- `zsum.test() :` function untuk melakukan uji z-sum
+- `mu :` nilai klaim rata-rata
 
 Berikut adalah hasilnya :
 
-![output_2C](Images/output_2C.png)
+```
+> zsum.test(rerata, sigma, n,
++           alternative = "greater",
++           mu = 25000)
 
-### 2D
+	One-sample z-Test
 
-```R
-# D
-# Peluang lebih dari 4 kematian kanker tulang
-D <- 1 - C
-D
+data:  Summarized x
+z = -5, p-value = 1
+alternative hypothesis: true mean is greater than 25000
+95 percent confidence interval:
+ 23006.54       NA
+sample estimates:
+mean of x 
+    23500
 ```
 
-Berikut adalah hasilnya :
-
-![output_2D](Images/output_2D.png)
-
-### 2E
-
-```R
-# E
-# Nilai Harapan dan Standar Deviasi kematian kanker tulang
-nilai_harapan <- lambda
-sd <- lambda
-nilai_harapan
-sd
-```
-
-Berikut adalah hasilnya :
-
-![output_2E](Images/output_2E.png)
-
-### 2F
-
-```R
-# F
-# Histogram Pendistribusian kematian kanker tulang
-plot(0:10, dpois(0:10, lambda), type = 'h', lwd = 3,
-     main = "Distribusi banyak kematian akibat kanker tulang",
-     xlab = "Jumlah Kematian", ylab = "Probabilitas")
-```
-
-![plot_2F](Images/plot_2F.png)
+Berdasarkan hasil di atas, didapatkan nilai p-value adalah 1 (lebih besar dari &alpha; = 0.05), maka tidak cukup bukti untuk menolak H0. Sehingga dapat disimpulkan bahwa **rata-rata jarak tempuh mobil lebih dari 25.000 kilometer per tahun.**
 
 ## Soal 3
 
